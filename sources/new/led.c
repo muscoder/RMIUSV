@@ -23,10 +23,11 @@ int main( void ){
   while(1) {
     static char dataReg;
     static int bitCount = 0;
-    char str1[3] = "\0";
+    char str1[60] = "\0";
     static char str2[3] = "\0";
 
     scanf("%s", str1);
+    printf("%s\n", str1);
     if (strcmp(str1, "") != 0){
       bitCount++;
       str2[bitCount] = str1[0];

@@ -22,7 +22,7 @@ int main(void){
   char tmpData[6];   // Temp C * 1000 reported by device
   char path[] = "/sys/bus/w1/devices";
   ssize_t numRead;
-  
+
   dir = opendir(path);
   if(dir != NULL){
     while((dirent = readdir(dir)))
@@ -40,6 +40,7 @@ int main(void){
   sprintf(devPath, "%s/%s/w1_slave", path, dev);
   // Read temp continuosly
   // Opening the device's file triggers new reading
+  
   while(1){
     int fd = open(devPath, O_RDONLY);
     if(fd == -1){
@@ -54,5 +55,6 @@ int main(void){
       printf("%.3f F\n\n", (tempC / 1000) * 9 / 5 + 32);
     }
     close(fd);
+    fflush(stdout);
   }
 }
