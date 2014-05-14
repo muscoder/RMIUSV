@@ -109,7 +109,7 @@ void button_signal_handler ( int sig, siginfo_t *siginfo, void *context )
   }else;
 
   if ( 2 == *( ( int * ) &siginfo -> si_value ) ){
-    dataReg = a;
+    dataReg = (dataReg << 1) | set1;
     bitCount++;
     if(bitCount == 2){
       sprintf (buffer, "echo %d >> /tmp/my_fifo &", dataReg);

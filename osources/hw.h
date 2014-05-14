@@ -1,6 +1,6 @@
 // Created by Mustafa Tosun
-#ifndef BUTTONS_H
-#define BUTTONS_H
+#ifndef HW_H
+#define HW_H
 
 #include <bcm2835.h>
 #include <pthread.h>

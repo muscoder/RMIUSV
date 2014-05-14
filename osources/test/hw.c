@@ -1,8 +1,7 @@
-#include "Button.h"
+#include "hw.h"
+#include <bcm2835.h>
 
 void initButtons( void ){
-  if (!bcm2835_init())
-    return 1;
   // Set RPI pin to be an input
   bcm2835_gpio_fsel ( BUTTON_0, BCM2835_GPIO_FSEL_INPT );
   bcm2835_gpio_fsel ( BUTTON_1, BCM2835_GPIO_FSEL_INPT );
@@ -12,8 +11,6 @@ void initButtons( void ){
 }
 
 void initLEDs( void ){
-  if (!bcm2835_init())
-    return 1;
   // Set RPI pin to be an input 
   bcm2835_gpio_fsel ( LED_0, BCM2835_GPIO_FSEL_OUTP );
   bcm2835_gpio_fsel ( LED_1, BCM2835_GPIO_FSEL_OUTP );
@@ -22,7 +19,6 @@ void initLEDs( void ){
 }
 
 uint8_t getButton( uint8_t pin ){
-  while ( 1 ) {
     if ( bcm2835_gpio_lev ( pin ) ) {
       delay ( 50 );
       if ( bcm2835_gpio_lev ( pin ) ) {
@@ -36,7 +32,6 @@ uint8_t getButton( uint8_t pin ){
       }else;
     }else;
     delay ( 1 );
-  }
 }
 
 void setLED(uint8_t pin, uint8_t on){

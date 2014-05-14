@@ -6,7 +6,10 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
-#define OUT_PIN1 RPI_GPIO_P1_15
+#define OUT_PIN0 RPI_GPIO_P1_15
+#define OUT_PIN1 RPI_GPIO_P1_22
+#define OUT_PIN2 RPI_GPIO_P1_24
+#define OUT_PIN3 RPI_GPIO_P1_26
 
 #define OUR_INPUT_FIFO_NAME "/tmp/my_fifo"
 
@@ -35,22 +38,50 @@ int main ()
 	{
 	  rx_buffer [ rx_length ] = '\0';
 
-	  if ( 0 == strncmp ( "10", rx_buffer, 2 ) )
+	  if ( 0 == strncmp ( "0", rx_buffer, 1 ) ){
+	    bcm2835_gpio_write ( OUT_PIN0, HIGH );
 	    bcm2835_gpio_write ( OUT_PIN1, LOW );
+	    bcm2835_gpio_write ( OUT_PIN2, LOW );
+	    bcm2835_gpio_write ( OUT_PIN3, LOW );
+	  }
 	  else;
-	  if ( 0 == strncmp ( "11", rx_buffer, 2 ) )
-	    bcm2835_gpio_write ( OUT_PIN1, HIGH );
-	  else;
+	  if ( 0 == strncmp ( "1", rx_buffer, 1 ) ){
+            bcm2835_gpio_write ( OUT_PIN0, LOW );
+            bcm2835_gpio_write ( OUT_PIN1, HIGH );
+            bcm2835_gpio_write ( OUT_PIN2, LOW );
+            bcm2835_gpio_write ( OUT_PIN3, LOW );
+          }
+          else;
+	  if ( 0 == strncmp ( "2", rx_buffer, 1 ) ){
+            bcm2835_gpio_write ( OUT_PIN0, LOW );
+            bcm2835_gpio_write ( OUT_PIN1, LOW );
+            bcm2835_gpio_write ( OUT_PIN2, HIGH );
+            bcm2835_gpio_write ( OUT_PIN3, LOW );
+          }
+          else;
+	  if ( 0 == strncmp ( "3", rx_buffer, 1 ) ){
+            bcm2835_gpio_write ( OUT_PIN0, LOW );
+            bcm2835_gpio_write ( OUT_PIN1, LOW );
+            bcm2835_gpio_write ( OUT_PIN2, LOW );
+            bcm2835_gpio_write ( OUT_PIN3, HIGH );
+          }
+          else;
 	}else;
     }
 }
 
 void set_pins_output ( void )
 {
+  bcm2835_gpio_fsel ( OUT_PIN0, BCM2835_GPIO_FSEL_OUTP );
   bcm2835_gpio_fsel ( OUT_PIN1, BCM2835_GPIO_FSEL_OUTP );
+  bcm2835_gpio_fsel ( OUT_PIN2, BCM2835_GPIO_FSEL_OUTP );
+  bcm2835_gpio_fsel ( OUT_PIN3, BCM2835_GPIO_FSEL_OUTP );
 }
 
 void set_output_pins_low ( void )
 {
+  bcm2835_gpio_write ( OUT_PIN0, LOW);
   bcm2835_gpio_write ( OUT_PIN1, LOW);
+  bcm2835_gpio_write ( OUT_PIN2, LOW);
+  bcm2835_gpio_write ( OUT_PIN3, LOW);
 }

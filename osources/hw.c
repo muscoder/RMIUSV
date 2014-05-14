@@ -1,4 +1,4 @@
-#include "Button.h"
+#include "hw.h"
 
 void initButtons( void ){
   if (!bcm2835_init())

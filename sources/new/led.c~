@@ -1,0 +1,57 @@
+#include <bcm2835.h>
+#include <stdio.h>
+
+#define OUT_PIN0 RPI_GPIO_P1_15
+#define OUT_PIN1 RPI_GPIO_P1_22
+#define OUT_PIN2 RPI_GPIO_P1_24
+#define OUT_PIN3 RPI_GPIO_P1_26
+
+#define bool char
+
+void initLed(void);
+void setLedsLow(void);
+
+int main( void ){
+
+  if(!bcm2835_init())
+    return 1;
+  
+  initLed();
+  setLedsLow();
+
+  while(1) {
+    static char dataReg;
+    static int bitCount = 0;
+    char str1[3] = "\0";
+
+    scanf("%s", str1);
+    //printf("%s\n", str1);
+    if (strcmp(str1, "") =! 0){
+      printf("%s\n", str1);
+      bitCount++;
+      if(bitCount == 2){
+	dataReg = 0;
+	bitCount = 0;
+      }
+      }else;
+  }
+
+  return 0;
+}
+
+void initLed(void){
+  bcm2835_gpio_fsel ( OUT_PIN0, BCM2835_GPIO_FSEL_OUTP );
+  bcm2835_gpio_fsel ( OUT_PIN1, BCM2835_GPIO_FSEL_OUTP );
+  bcm2835_gpio_fsel ( OUT_PIN2, BCM2835_GPIO_FSEL_OUTP );
+  bcm2835_gpio_fsel ( OUT_PIN3, BCM2835_GPIO_FSEL_OUTP );
+}
+
+void setLedsLow (void)
+{
+  bcm2835_gpio_write ( OUT_PIN0, LOW);
+  bcm2835_gpio_write ( OUT_PIN1, LOW);
+  bcm2835_gpio_write ( OUT_PIN2, LOW);
+  bcm2835_gpio_write ( OUT_PIN3, LOW);
+}
+
+
