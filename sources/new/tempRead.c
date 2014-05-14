@@ -20,14 +20,14 @@ int main(void){
   char devPath[128]; // Path to device
   char buf[256];     // Data fromDevice
   char tmpData[6];   // Temp C * 1000 reported by device
-  char path[] = "sys/bus/w1/devices";
+  char path[] = "/sys/bus/w1/devices";
   ssize_t numRead;
   
   dir = opendir(path);
   if(dir != NULL){
     while((dirent = readdir(dir)))
-      // 1-wire devices are links beginnig with 28-
-      if(dirent->d_type == DT_LNK && strstr(dirent->d_name, "28-") != NULL){
+      // 1-wire devices are links beginnig with 10-
+      if(dirent->d_type == DT_LNK && strstr(dirent->d_name, "10-") != NULL){
 	strcpy(dev, dirent->d_name);
 	printf("\nDevice: %s\n", dev);
       }
