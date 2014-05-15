@@ -29,7 +29,7 @@ int main(void){
       // 1-wire devices are links beginnig with 10-
       if(dirent->d_type == DT_LNK && strstr(dirent->d_name, "10-") != NULL){
 	strcpy(dev, dirent->d_name);
-	printf("\nDevice: %s\n", dev);
+	//printf("\nDevice: %s\n", dev);
       }
     (void) closedir(dir);
   } else{
@@ -50,9 +50,9 @@ int main(void){
     while((numRead = read(fd, buf, 256))> 0){
       strncpy(tmpData, strstr(buf, "t=") + 2, 5);
       float tempC = strtof(tmpData, NULL);
-      printf("Device: %s - ", dev);
-      printf("Temp: %.3f C ", tempC / 1000);
-      printf("%.3f F\n\n", (tempC / 1000) * 9 / 5 + 32);
+      //printf("Device: %s - ", dev);
+      printf("%.3f\n", tempC / 1000);
+      //printf("%.3f F\n\n", (tempC / 1000) * 9 / 5 + 32);
     }
     close(fd);
     fflush(stdout);

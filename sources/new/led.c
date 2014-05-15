@@ -10,7 +10,7 @@
 
 void initLed(void);
 void setLedsLow(void);
-void turnOnLed(char[]);
+void turnOnLed(uint8_t);
 
 int main( void ){
 
@@ -22,29 +22,34 @@ int main( void ){
 
   while(1) {
     static char dataReg;
+    char state;
     static int bitCount = 0;
+    uint8_t result = 0;
     char str1[60] = "\0";
     static char str2[3] = "\0";
 
     scanf("%s", str1);
-    printf("%s\n", str1);
-    if (strcmp(str1, "") != 0){
+    state = (strcmp(str1, "") >= 50) ? 1 : 0;
+    
+    switch(state){
+    case 0:
       bitCount++;
       str2[bitCount] = str1[0];
       if(bitCount == 2){
-	turnOnLed(str2);
+	result = (str2[1] == '1') ? ((str2[2] == '1') ? 3 : 1) : ((str2[2] == '1') ? 2 : 0) ;
+	turnOnLed(result);
 	dataReg = 0;
 	bitCount = 0;
       } else;
-    } else;
+      break;
+    case 1:
+      printf("%s\n", str1);
+    }
   }
-
   return 0;
 }
 
-void turnOnLed(char str2[]){
-  char result = 0;
-  result = (str2[1] == '1') ? ((str2[2] == '1') ? 3 : 1) : ((str2[2] == '1') ? 2 : 0) ;
+void turnOnLed(uint8_t result){
   if(result == 0){
     bcm2835_gpio_write(OUT_PIN0, HIGH);
     bcm2835_gpio_write(OUT_PIN1, LOW);
