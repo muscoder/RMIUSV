@@ -1,0 +1,76 @@
+#include <bcm2835.h>
+#include <stdio.h>
+#include <time.h>
+
+#define OUT_PIN0 RPI_GPIO_P1_15
+#define OUT_PIN1 RPI_GPIO_P1_22
+#define OUT_PIN2 RPI_GPIO_P1_24
+#define OUT_PIN3 RPI_GPIO_P1_26
+
+#define bool char
+
+void delay(int);
+void initLed(void);
+void setLedsLow(void);
+void turnOnLed(uint8_t);
+
+int main( void ){
+
+  if(!bcm2835_init())
+    return 1;
+  
+  initLed();
+  setLedsLow();
+
+  while(1) {
+    delay
+    static uint8_t result = 0;
+    
+    scanf("%d", result);
+
+  }
+  return 0;
+}
+
+void turnOnLed(uint8_t result){
+  char bits[4];
+
+  bits[3] = (result & 1) + '0';
+  result >>= 1;
+  bits[2] = (result & 1) + '0';
+  result >>= 1;
+  bits[1] = (result & 1 + '0');
+  result >>= 1;
+  bits[0] = result + '0';
+  
+  bcm2835_gpio_write(OUT_PIN0, (uint8_t)bits[3]);
+  bcm2835_gpio_write(OUT_PIN1, (uint8_t)bits[2]);
+  bcm2835_gpio_write(OUT_PIN2, (uint8_t)bits[1]);
+  bcm2835_gpio_write(OUT_PIN3, (uint8_t)bits[0]);
+}
+
+void initLed(void){
+  bcm2835_gpio_fsel ( OUT_PIN0, BCM2835_GPIO_FSEL_OUTP );
+  bcm2835_gpio_fsel ( OUT_PIN1, BCM2835_GPIO_FSEL_OUTP );
+  bcm2835_gpio_fsel ( OUT_PIN2, BCM2835_GPIO_FSEL_OUTP );
+  bcm2835_gpio_fsel ( OUT_PIN3, BCM2835_GPIO_FSEL_OUTP );
+}
+
+void setLedsLow (void)
+{
+  bcm2835_gpio_write ( OUT_PIN0, LOW);
+  bcm2835_gpio_write ( OUT_PIN1, LOW);
+  bcm2835_gpio_write ( OUT_PIN2, LOW);
+  bcm2835_gpio_write ( OUT_PIN3, LOW);
+}
+
+
+void delay(int milliseconds){
+  long pause;
+  clock_t now, then;
+  
+  pause = milliseconds*(CLOCK_PER_SEC/1000);
+  now = then = clock();
+  while((now-then) < pause)
+    now = clock();
+}
